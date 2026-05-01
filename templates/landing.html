@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WalMart Forecast | AI Sales Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="noise"></div>
+<nav class="nav">
+  <div class="nav-logo"><span class="logo-mark">W</span><span class="logo-text">Forecast</span></div>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#charts">Analytics</a>
+    <a href="/predict-form" class="nav-cta">Launch App</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div><div class="grid-lines"></div></div>
+  <div class="hero-content">
+    <div class="hero-tag"><span class="tag-dot"></span>Machine Learning | Sales Intelligence</div>
+    <h1 class="hero-title">Predict Walmart<br/><em>Weekly Sales</em><br/>with AI</h1>
+    <p class="hero-desc">Sales forecasting platform powered by machine learning to predict accuracy in real-time.</p>
+    <div class="hero-actions">
+      <a href="/predict-form" class="btn-primary"><span>Start Prediction</span></a>
+      <a href="#overview" class="btn-ghost">View Details</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="visual-card">
+      <div class="vc-header"><span class="vc-dot red"></span><span class="vc-dot yellow"></span><span class="vc-dot green"></span><span class="vc-title">Live Forecast Preview</span></div>
+      <canvas id="heroChart" height="200"></canvas>
+    </div>
+  </div>
+</section>
+
+<section id="overview" class="section-overview">
+  <div class="container">
+    <div class="section-label">How It Works</div><h2 class="section-title">Two Simple Steps</h2>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-num">01</div><div class="step-icon">📅</div><h3>Input Parameters</h3><p>Enter date, store data, and economic indicators like CPI and fuel price.</p></div>
+      <div class="step-card"><div class="step-num">02</div><div class="step-icon">📊</div><h3>View Results</h3><p>Get weekly sales predictions along with historical trend visualizations instantly.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="charts" class="section-charts">
+  <div class="container">
+    <div class="section-label">Analytics</div><h2 class="section-title">Sales Overview</h2>
+    <div class="chart-card wide">
+      <div class="cc-header"><span class="cc-title">📈 Monthly Average Sales Trend</span><span class="cc-sub">All historical stores and departments</span></div>
+      <canvas id="salesTrendChart" height="120"></canvas>
+    </div>
+  </div>
+</section>
+
+<footer class="footer"><div class="container"><p>Built with Flask | scikit-learn | Chart.js</p></div></footer>
+
+<script>const SALES_HISTORY = {{ sales_history | tojson }};</script>
+<script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prediction Results | Walmart Forecast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="noise"></div>
+<nav class="nav">
+  <a href="/predict-form" class="nav-back">Predict Again</a>
+  <div class="nav-logo"><span class="logo-mark">W</span><span class="logo-text">Forecast</span></div>
+</nav>
+
+<section class="result-hero">
+  <div class="rh-bg"><div class="rh-orb rh-orb1"></div><div class="rh-orb rh-orb2"></div></div>
+  <div class="rh-content">
+    <div class="rh-tag"><span class="tag-dot pulse"></span> Prediction Successful</div>
+    <div class="rh-label">Predicted Weekly Sales</div>
+    <div class="rh-value">$<span id="animatedValue">0</span></div>
+    <div class="rh-meta">Store #{{ pred.inputs.store }} | Dept #{{ pred.inputs.dept }} | {{ pred.inputs.month }}/{{ pred.inputs.day }}/{{ pred.inputs.year }}</div>
+    <div class="rh-actions"><a href="/predict-form" class="btn-secondary">Predict Again</a></div>
+  </div>
+</section>
+
+<div class="result-container">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><span class="card-title">📋 Input Summary</span></div>
+      <div class="input-summary">
+        <div class="is-row highlight"><span class="is-key">💵 Predicted Result</span><span class="is-val accent">${{ "{:,.2f}".format(pred.prediction) }}</span></div>
+        <div class="is-divider"></div>
+        <div class="is-row"><span class="is-key">Store</span><span class="is-val">#{{ pred.inputs.store }}</span></div>
+        <div class="is-row"><span class="is-key">Dept</span><span class="is-val">#{{ pred.inputs.dept }}</span></div>
+        <div class="is-row"><span class="is-key">Temp / Fuel</span><span class="is-val">{{ pred.inputs.temperature }}°F / ${{ pred.inputs.fuel_price }}</span></div>
+        <div class="is-row"><span class="is-key">CPI / Unemp</span><span class="is-val">{{ pred.inputs.cpi }} / {{ pred.inputs.unemployment }}%</span></div>
+      </div>
+    </div>
+    
+    <div class="card wide-card">
+      <div class="card-header"><span class="card-title">📈 Sales Trend & Context</span></div>
+      <canvas id="trendContextChart" height="200"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+const PREDICTION = {{ pred.prediction | tojson }};
+const SALES_HISTORY = {{ sales_history | tojson }};
+const INPUT_DATE = { year: {{ pred.inputs.year }}, month: {{ pred.inputs.month }} };
+</script>
+<script src="{{ url_for('static', filename='js/result.js') }}"></script>
+</body>
+</html>

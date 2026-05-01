@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sales Prediction | Walmart Forecast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/predict.css') }}"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="noise"></div>
+<nav class="nav">
+  <a href="/" class="nav-back">Home</a>
+  <div class="nav-logo"><span class="logo-mark">W</span><span class="logo-text">Forecast</span></div>
+</nav>
+
+<div class="page-layout">
+  <aside class="form-panel">
+    <div class="form-panel-inner">
+      <div class="fp-header"><h1 class="fp-title">Configure Prediction</h1></div>
+      <form id="predictForm" onsubmit="return false">
+        
+        <div class="field-section">
+          <div class="fs-label">📅 Prediction Date</div>
+          <div class="field-hint">Select the specific target date to forecast the weekly sales.</div>
+          <input type="date" id="datePicker" class="date-input" />
+          <div class="date-fields" style="margin-top: 10px;">
+            <div class="field-group">
+                <label>Year</label>
+                <div class="field-hint">Target year.</div>
+                <input type="number" id="year" placeholder="eg: 2012"/>
+            </div>
+            <div class="field-group">
+                <label>Month</label>
+                <div class="field-hint">Month (1-12).</div>
+                <input type="number" id="month" placeholder="eg: 6"/>
+            </div>
+            <div class="field-group">
+                <label>Day</label>
+                <div class="field-hint">Day (1-31).</div>
+                <input type="number" id="day" placeholder="eg: 15"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-section">
+          <div class="fs-label">🏪 Store Information</div>
+          <div class="two-col">
+            <div class="field-group">
+                <label>Store ID</label>
+                <div class="field-hint">Branch number (1-45).</div>
+                <input type="number" id="store" placeholder="eg: 1" min="1" max="45"/>
+            </div>
+            <div class="field-group">
+                <label>Department</label>
+                <div class="field-hint">Dept number (1-99).</div>
+                <input type="number" id="dept" placeholder="eg: 1" min="1" max="99"/>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="field-group">
+                <label>Store Size</label>
+                <div class="field-hint">Total area in sqft.</div>
+                <input type="number" id="size" placeholder="eg: 151315"/>
+            </div>
+            <div class="field-group">
+                <label>Holiday Week?</label>
+                <div class="field-hint">Is this a holiday?</div>
+              <select id="is_holiday"><option value="false">No</option><option value="true">Yes</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-section">
+          <div class="fs-label">📈 Economic Indicators</div>
+          <div class="two-col">
+            <div class="field-group">
+                <label>Temperature (°F)</label>
+                <div class="field-hint">Avg weekly temp.</div>
+                <input type="number" id="temperature" placeholder="eg: 60.0" step="0.1"/>
+            </div>
+            <div class="field-group">
+                <label>Fuel Price ($)</label>
+                <div class="field-hint">Cost per gallon.</div>
+                <input type="number" id="fuel_price" placeholder="eg: 3.50" step="0.001"/>
+            </div>
+          </div>
+          <div class="two-col">
+            <div class="field-group">
+                <label>CPI</label>
+                <div class="field-hint">Consumer Price Index.</div>
+                <input type="number" id="cpi" placeholder="eg: 200.0" step="0.01"/>
+            </div>
+            <div class="field-group">
+                <label>Unemployment</label>
+                <div class="field-hint">Jobless rate (%).</div>
+                <input type="number" id="unemployment" placeholder="eg: 7.0" step="0.01"/>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="submit-btn" id="submitBtn" onclick="submitPrediction()"><span class="sb-text">Predict Now</span></button>
+      </form>
+    </div>
+  </aside>
+
+  <main class="charts-panel">
+    <div class="cp-header"><h2>Sales Analytics</h2></div>
+    <div class="chart-card">
+      <div class="cc-top"><div class="cc-title">📈 Monthly Sales Trend</div></div>
+      <canvas id="salesTrendChart" height="150"></canvas>
+    </div>
+  </main>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay"><div class="loader-box"><div class="spinner"></div><div class="loader-text">Processing prediction...</div></div></div>
+
+<script>const SALES_HISTORY = {{ sales_history | tojson }};</script>
+<script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+</body>
+</html>
