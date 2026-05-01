@@ -67,7 +67,7 @@ Models were evaluated on a 30% holdout test set using regression metrics:
 - **MAE (Mean Absolute Error)**
 - **RMSE (Root Mean Squared Error)**
 
-      > Result: The Ensemble Voting Regressor outperformed individual models, achieving an impressive Test R² score of ~97%.
+      > Result: The Ensemble Voting Regressor outperformed individual models, achieving an impressive Test R² score of ~96%.
 ![Model Evaluation](assets/model_eval.png)
 
 
